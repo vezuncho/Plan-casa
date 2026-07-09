@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#0f172a" />
-  <title>CasaPlan v32</title>
+  <title>CasaPlan v34</title>
   <meta name="application-name" content="CasaPlan" />
   <meta name="apple-mobile-web-app-title" content="CasaPlan" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="manifest.webmanifest?v=32" />
+  <link rel="manifest" href="manifest.webmanifest?v=34" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-v26.png?v=26" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-v26-180.png?v=26" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -44,7 +44,7 @@
 <div class="app">
   <header>
     <div class="top">
-      <div class="logo"><div class="mark"><img src="assets/casaplan-logo-v26.png?v=26" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v31 incidencias</div></div></div>
+      <div class="logo"><div class="mark"><img src="assets/casaplan-logo-v26.png?v=26" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v34 actualización fiable</div></div></div>
       <div class="status"><span id="connDot" class="dot"></span><span id="connText">Conectando</span></div>
     </div>
     <div class="heroGrid"><button class="heroStat heroBtn" data-quick-filter="today" type="button" onclick="openQuickFilter('today')"><b id="statToday">0</b><span>hoy</span></button><button class="heroStat heroBtn" data-quick-filter="pending" type="button" onclick="openQuickFilter('pending')"><b id="statPending">0</b><span>pendientes</span></button><button class="heroStat heroBtn" data-quick-filter="shop" type="button" onclick="openQuickFilter('shop')"><b id="statShop">0</b><span>compra</span></button><button class="heroStat heroBtn" data-quick-filter="done" type="button" onclick="openQuickFilter('done')"><b id="statDone">0</b><span>realizadas</span></button></div>
@@ -58,35 +58,72 @@
   <button class="fab" onclick="openTab('tareas')" aria-label="Crear tarea">+</button>
 </div>
 <script>
-const APP_VERSION=32;
-const APP_VERSION_LABEL='v33 productos más comprados';
-async function clearOldAppCache(){
-  try{if('caches' in window){let names=await caches.keys();await Promise.all(names.map(n=>caches.delete(n)));}}catch(e){}
-  try{if('serviceWorker' in navigator){let regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}}catch(e){}
+const APP_VERSION=34;
+const APP_VERSION_LABEL='v34 actualización fiable';
+let LATEST_REMOTE_VERSION=APP_VERSION;
+async function getRemoteVersion(){
+  try{
+    const r=await fetch('version.json?ts='+Date.now(),{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
+    if(!r.ok)return {version:APP_VERSION,label:APP_VERSION_LABEL};
+    const v=await r.json();
+    return {version:parseInt(v.version||APP_VERSION,10),label:v.label||''};
+  }catch(e){return {version:APP_VERSION,label:APP_VERSION_LABEL};}
 }
-async function forceAppUpdate(){
+async function clearOldAppCache(){
+  const results=[];
+  try{
+    if('caches' in window){
+      const names=await caches.keys();
+      await Promise.all(names.map(n=>caches.delete(n)));
+      results.push(`cachés borradas: ${names.length}`);
+    }
+  }catch(e){results.push('caché no borrada: '+(e.message||e));}
+  try{
+    if('serviceWorker' in navigator){
+      const regs=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(async r=>{try{await r.update()}catch(e){} return r.unregister()}));
+      results.push(`service workers eliminados: ${regs.length}`);
+    }
+  }catch(e){results.push('service worker no eliminado: '+(e.message||e));}
+  try{localStorage.setItem('casaplan_last_update_cleanup',new Date().toISOString());}catch(e){}
+  return results;
+}
+async function forceAppUpdate(btn){
+  const button=btn||document.querySelector('#updateBanner button');
+  if(button){button.disabled=true;button.textContent='Actualizando...';}
+  const remote=await getRemoteVersion();
+  LATEST_REMOTE_VERSION=Math.max(remote.version||APP_VERSION,APP_VERSION);
   await clearOldAppCache();
-  const clean=location.origin+location.pathname+'?v='+APP_VERSION+'&t='+Date.now();
-  location.replace(clean);
+  try{localStorage.setItem('casaplan_last_seen_version',String(LATEST_REMOTE_VERSION));}catch(e){}
+  const url=new URL(location.href);
+  url.searchParams.set('v',String(LATEST_REMOTE_VERSION));
+  url.searchParams.set('refresh',String(Date.now()));
+  location.replace(url.toString());
 }
 function showUpdateBanner(remoteVersion){
   if(document.getElementById('updateBanner'))return;
   const d=document.createElement('div');
   d.id='updateBanner';
   d.className='updateBanner';
-  d.innerHTML=`<div><b>Nueva versión disponible</b><span>Instalada v${APP_VERSION}. Publicada v${remoteVersion}. Actualiza para evitar caché vieja.</span></div><button class="btn" onclick="forceAppUpdate()">Actualizar</button>`;
+  d.innerHTML=`<div><b>Nueva versión disponible</b><span>Instalada v${APP_VERSION}. Publicada v${remoteVersion}. Se limpiará la caché antes de recargar.</span></div><button class="btn" onclick="forceAppUpdate(this)">Actualizar</button>`;
   document.body.appendChild(d);
 }
 async function checkAppVersion(){
+  const remote=await getRemoteVersion();
+  LATEST_REMOTE_VERSION=remote.version||APP_VERSION;
+  if(LATEST_REMOTE_VERSION>APP_VERSION)showUpdateBanner(LATEST_REMOTE_VERSION);
+}
+function ensureFreshUrl(){
   try{
-    const r=await fetch('version.json?ts='+Date.now(),{cache:'no-store'});
-    if(!r.ok)return;
-    const v=await r.json();
-    const remote=parseInt(v.version||0,10);
-    if(remote>APP_VERSION)showUpdateBanner(remote);
+    const url=new URL(location.href);
+    const current=url.searchParams.get('v');
+    if(current!==String(APP_VERSION)){
+      url.searchParams.set('v',String(APP_VERSION));
+      history.replaceState(null,'',url.toString());
+    }
   }catch(e){}
 }
-window.addEventListener('load',()=>setTimeout(checkAppVersion,1200));
+window.addEventListener('load',()=>{ensureFreshUrl();setTimeout(checkAppVersion,1200)});
 
 const CONFIG={SUPABASE_URL:'https://xyjrbgntqcydweheolyl.supabase.co',SUPABASE_ANON_KEY:'sb_publishable_MipZ8ou0CKpHsniT-ZIltw_l9UBAqze',FAMILY_CODE:localStorage.getItem('casaplan_family_code')||'familia-vezuncho',PHOTO_BUCKET:'task-photos'};
 const sb=window.supabase?.createClient(CONFIG.SUPABASE_URL,CONFIG.SUPABASE_ANON_KEY);
@@ -278,8 +315,8 @@ function adminTaskEditor(){let rows=state.tasks.slice().sort((a,b)=>String(b.cre
 
 function renderIncidencias(){let open=state.incidents.filter(i=>i.status==='open'), progress=state.incidents.filter(i=>i.status==='in_progress'), solved=state.incidents.filter(i=>i.status==='solved');let all=state.incidents;$('#view-incidencias').innerHTML=`<div class="card"><h2>Nueva incidencia</h2><form onsubmit="addIncident(event)" class="grid"><div class="grid grid2"><select name="room_id">${roomOptions('sin-zona')}</select><select name="priority"><option value="low">Prioridad baja</option><option value="medium" selected>Prioridad media</option><option value="high">Prioridad alta</option><option value="urgent">Urgente</option></select></div><input name="title" placeholder="Ej. Grifo pierde agua" required><textarea name="description" placeholder="Describe qué pasa, dónde está y cualquier detalle útil"></textarea><button class="btn">Crear incidencia</button></form><p class="muted small">Después de crearla podrás añadir fotos, pasarla a en proceso, marcarla como solucionada o convertirla en tarea.</p></div><div class="card"><h2>Resumen</h2><div class="quickAccess"><button class="btn danger">Abiertas: ${open.length}</button><button class="btn secondary">En proceso: ${progress.length}</button><button class="btn ok">Solucionadas: ${solved.length}</button><button class="btn ghost">Total: ${all.length}</button></div></div><div class="card"><h2>Abiertas y en proceso</h2>${open.concat(progress).length?open.concat(progress).map(incidentCard).join(''):'<div class="empty">No hay incidencias abiertas.</div>'}</div><div class="card"><h2>Solucionadas</h2>${solved.length?solved.map(incidentCard).join(''):'<div class="empty">Todavía no hay incidencias solucionadas.</div>'}</div>`}
 
-function renderAjustes(){let notif=localStorage.getItem('casaplan_notifications')==='1';$('#view-ajustes').innerHTML=`<div class="card"><h2>Ajustes</h2><div class="success"><b>Estado:</b> ${state.error?'Error':'Sincronizado'}<br><b>Código familiar:</b> ${esc(CONFIG.FAMILY_CODE)}<br><b>Fotos:</b> ${state.photoError?'Modo local':'Sincronización Supabase Storage'}<br><b>SQL necesario:</b> ejecutar migracion_desde_v31_a_v32.sql si vienes de v31<br><b>Enlace:</b> usa la URL de Cloudflare Pages para invitar a la familia.</div>${state.error?`<div class="error">${esc(state.error)}<br><br>Solución: abre Supabase → SQL Editor → pega todo el archivo supabase_sql_completo_v32.sql → Run → espera 10 segundos → recarga esta app.</div>`:''}${state.photoError?`<div class="error">${esc(state.photoError)}
-Crea un bucket público llamado task-photos y permite select/insert/delete para usuarios anon.</div>`:''}<div class="item"><h3>Este dispositivo pertenece a</h3><p class="muted small">Esto solo se guarda en este móvil. Sirve para ver "Mis tareas" y completar más rápido.</p><select onchange="setCurrentMember(this.value)"><option value="" ${!state.currentMemberId?'selected':''}>Sin elegir</option>${state.members.map(m=>`<option value="${m.id}" ${state.currentMemberId===m.id?'selected':''}>${esc(m.name)}</option>`).join('')}</select>${currentMember()?`<div class="profileBox small">Ahora este móvil está configurado como <b>${esc(currentMember().name)}</b>.</div>`:''}</div><div class="item"><h3>Invitar familiares</h3><p class="muted small">Comparte el enlace de Cloudflare Pages. Todos los que usen este mismo código familiar verán los mismos datos.</p><button class="btn secondary" onclick="navigator.clipboard?.writeText(location.href);alert('Enlace copiado')">Copiar enlace</button> <button class="btn ghost" onclick="changeFamilyCode()">Cambiar código</button></div>${adminTaskEditor()}<div class="item"><h3>Notificaciones</h3><p class="muted small">Aviso local del navegador. En iPhone puede requerir instalar la web en pantalla de inicio.</p><button class="btn ${notif?'ok':'secondary'}" onclick="enableNotifications()">${notif?'Notificaciones activadas':'Activar notificaciones'}</button></div><div class="item"><h3>Actualización de la app</h3><p class="muted small">Úsalo si un móvil sigue viendo una versión antigua después de actualizar GitHub/Cloudflare.</p><div class="row wrap"><span class="versionBadge">v32</span><button class="btn secondary" onclick="forceAppUpdate()">Forzar actualización</button></div></div><div class="item"><h3>Limpieza de tareas realizadas</h3><p class="muted small">Cada mes se borran automáticamente las tareas realizadas del mes anterior. No toca las pendientes ni las del mes actual.</p><button class="btn ghost" onclick="cleanupDoneTasksPreviousMonth(true)">Limpiar mes anterior ahora</button></div><div class="item"><h3>Copia</h3><button class="btn ghost" onclick="exportData()">Exportar copia JSON</button></div></div>`}
+function renderAjustes(){let notif=localStorage.getItem('casaplan_notifications')==='1';$('#view-ajustes').innerHTML=`<div class="card"><h2>Ajustes</h2><div class="success"><b>Estado:</b> ${state.error?'Error':'Sincronizado'}<br><b>Código familiar:</b> ${esc(CONFIG.FAMILY_CODE)}<br><b>Fotos:</b> ${state.photoError?'Modo local':'Sincronización Supabase Storage'}<br><b>SQL necesario:</b> no hace falta SQL para v34 si ya tienes v32/v33<br><b>Enlace:</b> usa la URL de Cloudflare Pages para invitar a la familia.</div>${state.error?`<div class="error">${esc(state.error)}<br><br>Solución: revisa que estén ejecutadas las migraciones de Supabase hasta v32 y recarga esta app.</div>`:''}${state.photoError?`<div class="error">${esc(state.photoError)}
+Crea un bucket público llamado task-photos y permite select/insert/delete para usuarios anon.</div>`:''}<div class="item"><h3>Este dispositivo pertenece a</h3><p class="muted small">Esto solo se guarda en este móvil. Sirve para ver "Mis tareas" y completar más rápido.</p><select onchange="setCurrentMember(this.value)"><option value="" ${!state.currentMemberId?'selected':''}>Sin elegir</option>${state.members.map(m=>`<option value="${m.id}" ${state.currentMemberId===m.id?'selected':''}>${esc(m.name)}</option>`).join('')}</select>${currentMember()?`<div class="profileBox small">Ahora este móvil está configurado como <b>${esc(currentMember().name)}</b>.</div>`:''}</div><div class="item"><h3>Invitar familiares</h3><p class="muted small">Comparte el enlace de Cloudflare Pages. Todos los que usen este mismo código familiar verán los mismos datos.</p><button class="btn secondary" onclick="navigator.clipboard?.writeText(location.href);alert('Enlace copiado')">Copiar enlace</button> <button class="btn ghost" onclick="changeFamilyCode()">Cambiar código</button></div>${adminTaskEditor()}<div class="item"><h3>Notificaciones</h3><p class="muted small">Aviso local del navegador. En iPhone puede requerir instalar la web en pantalla de inicio.</p><button class="btn ${notif?'ok':'secondary'}" onclick="enableNotifications()">${notif?'Notificaciones activadas':'Activar notificaciones'}</button></div><div class="item"><h3>Actualización de la app</h3><p class="muted small">Úsalo si un móvil sigue viendo una versión antigua después de actualizar GitHub/Cloudflare.</p><div class="row wrap"><span class="versionBadge">v34</span><button class="btn secondary" onclick="forceAppUpdate(this)">Forzar actualización</button></div></div><div class="item"><h3>Limpieza de tareas realizadas</h3><p class="muted small">Cada mes se borran automáticamente las tareas realizadas del mes anterior. No toca las pendientes ni las del mes actual.</p><button class="btn ghost" onclick="cleanupDoneTasksPreviousMonth(true)">Limpiar mes anterior ahora</button></div><div class="item"><h3>Copia</h3><button class="btn ghost" onclick="exportData()">Exportar copia JSON</button></div></div>`}
 function render(){stats();renderHoy();renderCalendario();renderTareas();renderHabitaciones();renderFamilia();renderIncidencias();renderCompra();renderAjustes()}
 function openTab(tab){state.tab=tab;$$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));$$('.view').forEach(v=>v.classList.add('hidden'));$('#view-'+tab).classList.remove('hidden');scrollTo(0,0)}
 function bindQuickFilterButtons(){ $$('.heroBtn[data-quick-filter]').forEach(btn=>{btn.addEventListener('click',ev=>{ev.preventDefault();openQuickFilter(btn.dataset.quickFilter)})}) }

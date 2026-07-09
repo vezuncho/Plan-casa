@@ -1,19 +1,15 @@
-# CasaPlan v32 - Compra inteligente
+# CasaPlan v34
 
-Cambios:
-- Lista de compra con categorías.
-- Cantidad, unidad, tienda, precio estimado y notas.
-- Total estimado de la compra.
-- Historial para comprar otra vez.
-- Registro de quién marcó un producto como comprado.
+Actualizador fiable para evitar bucles de caché.
 
-SQL: ejecutar `supabase/migracion_desde_v31_a_v32.sql` si vienes de v31.
+## Cambios
+- Corrige el número interno de versión.
+- El botón Actualizar limpia cachés y service workers antes de recargar.
+- Fuerza URL con `?v=34`.
+- Actualiza `version.json` y `manifest.webmanifest`.
 
+## SQL
+No necesita SQL si ya tienes v32/v33 funcionando.
 
-## v33 - Productos más comprados
-
-- Añadida sección **Más comprados** en la compra inteligente.
-- Permite añadir de nuevo productos habituales con un toque.
-- Evita duplicados si el producto ya está pendiente.
-- Mantiene categoría, unidad y tienda habitual.
-- No necesita SQL nuevo si ya ejecutaste la migración v31 → v32.
+## Subida a GitHub
+Sube el contenido descomprimido a la raíz del repositorio. No subas el ZIP.
