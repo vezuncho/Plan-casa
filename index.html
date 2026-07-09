@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#0f172a" />
-  <title>CasaPlan v23 GitHub Cloudflare</title>
+  <title>CasaPlan v26</title>
   <meta name="application-name" content="CasaPlan" />
   <meta name="apple-mobile-web-app-title" content="CasaPlan" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="manifest.webmanifest?v=25" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=25" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=25" />
+  <link rel="manifest" href="manifest.webmanifest?v=26" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-v26.png?v=26" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-v26-180.png?v=26" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -42,7 +42,7 @@
 <div class="app">
   <header>
     <div class="top">
-      <div class="logo"><div class="mark"><img src="assets/icon-192.png?v=25" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v25 logo optimizado</div></div></div>
+      <div class="logo"><div class="mark"><img src="assets/casaplan-logo-v26.png?v=26" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v26 logo interno</div></div></div>
       <div class="status"><span id="connDot" class="dot"></span><span id="connText">Conectando</span></div>
     </div>
     <div class="heroGrid"><button class="heroStat heroBtn" data-quick-filter="today" type="button" onclick="openQuickFilter('today')"><b id="statToday">0</b><span>hoy</span></button><button class="heroStat heroBtn" data-quick-filter="pending" type="button" onclick="openQuickFilter('pending')"><b id="statPending">0</b><span>pendientes</span></button><button class="heroStat heroBtn" data-quick-filter="shop" type="button" onclick="openQuickFilter('shop')"><b id="statShop">0</b><span>compra</span></button><button class="heroStat heroBtn" data-quick-filter="done" type="button" onclick="openQuickFilter('done')"><b id="statDone">0</b><span>realizadas</span></button></div>
@@ -55,8 +55,8 @@
   </main>
 </div>
 <script>
-const APP_VERSION=25;
-const APP_VERSION_LABEL='v25 logo optimizado';
+const APP_VERSION=26;
+const APP_VERSION_LABEL='v26 logo interno';
 async function clearOldAppCache(){
   try{if('caches' in window){let names=await caches.keys();await Promise.all(names.map(n=>caches.delete(n)));}}catch(e){}
   try{if('serviceWorker' in navigator){let regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}}catch(e){}

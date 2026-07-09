@@ -1,12 +1,5 @@
-# CasaPlan v25
+# CasaPlan v26
 
-- Cabecera superior más compacta.
-- Tarjetas superiores conectadas como filtros reales.
-- Filtros: Hoy, Pendientes, Compra y Realizadas.
-- Sin cambios de SQL.
+Versión con logo interno forzado mediante nombres nuevos de iconos para evitar caché del navegador/PWA.
 
-
-## v25
-- Icono de app simplificado para verse mejor en pantalla de móvil.
-- Iconos PWA regenerados en todos los tamaños.
-- Sin cambios de SQL.
+No necesita cambios SQL.
