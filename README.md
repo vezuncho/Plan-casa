@@ -1,10 +1,11 @@
-# CasaPlan v37
-
-Calendario más limpio y compacto.
+# CasaPlan v38 - Fotos de perfil
 
 Cambios:
-- La vista semanal y mensual solo muestra indicadores/contador de tareas.
-- Las tareas solo se muestran al pulsar un día.
-- Se elimina el bloque repetido de tareas de la semana.
-- Diseño del calendario más compacto.
-- Sin cambios de SQL.
+- Foto de perfil por miembro.
+- Elegir desde galería o cámara.
+- Avatares visibles junto al nombre en filtros, ranking, familia y tareas.
+- Sincronización mediante Supabase Storage.
+
+SQL:
+- Ejecutar `supabase/migracion_desde_v37_a_v38.sql`.
+- Para instalación nueva, usar el SQL completo más reciente y después esta migración si fuera necesario.
