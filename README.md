@@ -1,10 +1,10 @@
-# CasaPlan v39
+# CasaPlan v40 - Compra con puntos
 
-Menú de pendientes rediseñado para seguir la estética de compra y calendario.
+Cambios:
+- La compra suma puntos en el ranking semanal.
+- Cada producto marcado como comprado suma 1 punto a quien usa ese móvil.
+- El ranking separa puntos de tareas y puntos de compra.
+- La pantalla de compra muestra puntos de compra de la semana.
+- Para sumar puntos, en Ajustes debe estar seleccionado quién usa el móvil.
 
-## Cambios
-- Pendientes más compacto.
-- Agrupación por atrasadas, hoy y próximas.
-- Contadores superiores.
-- Mantiene botones, fotos, perfiles y finalización individual/grupal.
-- Sin SQL nuevo si ya ejecutaste v38.
+SQL: no necesita migración nueva si ya ejecutaste la v32.
