@@ -1,7 +1,7 @@
 {
   "name": "CasaPlan",
   "short_name": "CasaPlan",
-  "description": "La casa organizada entre todos",
+  "description": "CasaPlan v43.1 - administrador principal y permisos por miembro",
   "start_url": "./?v=42",
   "scope": "./",
   "display": "standalone",
