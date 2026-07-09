@@ -1,8 +1,10 @@
-# CasaPlan v41 - Detalle del ranking
+# CasaPlan v42 - permisos de administrador
 
 Cambios:
-- El ranking semanal ahora permite pulsar en cada persona.
-- Muestra tareas realizadas de la semana.
-- Muestra productos comprados de la semana.
-- Separa puntos de tareas, compra y total.
-- Sin cambios SQL.
+- Rol de administrador por miembro.
+- Modo administrador con PIN.
+- Solo administrador puede crear/editar/borrar tareas, miembros y habitaciones.
+- Ajustes personales separados de administración.
+- Los miembros normales pueden completar tareas, comprar, subir fotos y crear incidencias.
+
+SQL: ejecutar `supabase/migracion_desde_v41_a_v42.sql`.
