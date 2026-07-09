@@ -1,15 +1,10 @@
-# CasaPlan v36
+# CasaPlan v37
 
-Mejora visual de la pantalla de compra.
+Calendario más limpio y compacto.
 
-## Cambios
-- Menú de compra más limpio y compacto.
-- Bloque superior de resumen más integrado.
-- Formulario de añadir producto reducido.
-- Productos más comprados en tarjetas rápidas.
-- Últimos comprados en tarjetas rápidas.
-- Lista pendiente más clara por categorías.
-- Mantiene toda la funcionalidad de compra inteligente.
-
-## SQL
-No necesita SQL nuevo si ya ejecutaste la migración v31 → v32.
+Cambios:
+- La vista semanal y mensual solo muestra indicadores/contador de tareas.
+- Las tareas solo se muestran al pulsar un día.
+- Se elimina el bloque repetido de tareas de la semana.
+- Diseño del calendario más compacto.
+- Sin cambios de SQL.
