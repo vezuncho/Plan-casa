@@ -1,15 +1,13 @@
-# CasaPlan v34
+# CasaPlan v35
 
-Actualizador fiable para evitar bucles de caché.
+Versión que une el actualizador fiable con compra habitual visible.
 
 ## Cambios
-- Corrige el número interno de versión.
-- El botón Actualizar limpia cachés y service workers antes de recargar.
-- Fuerza URL con `?v=34`.
-- Actualiza `version.json` y `manifest.webmanifest`.
+- Mantiene el actualizador fiable de v34.
+- Muestra siempre la sección **Más comprados** en Compra.
+- Añade productos habituales con un toque.
+- Si todavía no hay historial, muestra un aviso claro.
+- Evita duplicados si el producto ya está en la lista activa.
 
 ## SQL
-No necesita SQL si ya tienes v32/v33 funcionando.
-
-## Subida a GitHub
-Sube el contenido descomprimido a la raíz del repositorio. No subas el ZIP.
+No necesita SQL nuevo si ya ejecutaste la migración v31 → v32 de compra inteligente.
