@@ -1,13 +1,15 @@
-# CasaPlan v35
+# CasaPlan v36
 
-Versión que une el actualizador fiable con compra habitual visible.
+Mejora visual de la pantalla de compra.
 
 ## Cambios
-- Mantiene el actualizador fiable de v34.
-- Muestra siempre la sección **Más comprados** en Compra.
-- Añade productos habituales con un toque.
-- Si todavía no hay historial, muestra un aviso claro.
-- Evita duplicados si el producto ya está en la lista activa.
+- Menú de compra más limpio y compacto.
+- Bloque superior de resumen más integrado.
+- Formulario de añadir producto reducido.
+- Productos más comprados en tarjetas rápidas.
+- Últimos comprados en tarjetas rápidas.
+- Lista pendiente más clara por categorías.
+- Mantiene toda la funcionalidad de compra inteligente.
 
 ## SQL
-No necesita SQL nuevo si ya ejecutaste la migración v31 → v32 de compra inteligente.
+No necesita SQL nuevo si ya ejecutaste la migración v31 → v32.
