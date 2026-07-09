@@ -1,7 +1,11 @@
-# CasaPlan v43.1
+# CasaPlan v44 - Inicio mejorado
 
-Versión con administrador principal único y permisos independientes por miembro.
+Cambios:
+- Pestaña Inicio rediseñada con la misma línea visual que Compra, Calendario y Pendientes.
+- Resumen superior compacto.
+- Accesos rápidos claros.
+- Tareas de hoy y realizadas con tarjetas compactas.
+- Ranking semanal más limpio.
+- Sin cambios de SQL.
 
-## SQL
-
-Ejecuta `supabase/migracion_desde_v42_a_v43.sql` antes de usar esta versión.
+Para actualizar: sube el contenido descomprimido a GitHub. Cloudflare desplegará automáticamente.
