@@ -1,17 +1,6 @@
-# CasaPlan v30
+# CasaPlan v31 - Incidencias
 
-Interfaz simplificada sobre v27.
+Añade gestión de incidencias del hogar, fotos, estados y conversión a tarea.
 
-Cambios:
-- Menú inferior más limpio.
-- Las tarjetas superiores son el único filtro principal: Hoy, Pendientes, Compra y Realizadas.
-- Un único botón flotante para crear tareas.
-- Eliminados accesos repetidos de creación y filtros duplicados.
-- Sin cambios de SQL.
-
-
-## v30
-- Si una tarea tiene una sola persona asignada, se completa sin pedir elegirla.
-- Si una tarea tiene varias personas asignadas, permite marcarla como hecha por una, varias o todas.
-- Las realizadas muestran todas las personas que participaron.
-- El ranking reparte los puntos entre quienes hicieron la tarea.
+## Importante
+Ejecuta en Supabase `supabase/supabase_sql_completo_v31.sql` o, si ya vienes de v30, `supabase/migracion_desde_v30_a_v31.sql`.
