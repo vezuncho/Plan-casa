@@ -1,6 +1,5 @@
 {
-  "version": 22,
-  "label": "v22 GitHub + Cloudflare",
-  "updated_at": "2026-07-09",
-  "notes": "Proyecto preparado para subir descomprimido a GitHub y desplegar en Cloudflare Pages"
+  "version": 23,
+  "label": "v23 filtros y limpieza mensual",
+  "released_at": "2026-07-09"
 }

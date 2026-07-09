@@ -1,33 +1,15 @@
-# CasaPlan v22
+# CasaPlan v23
 
 Proyecto preparado para GitHub + Cloudflare Pages + Supabase.
 
+## Cambios v23
+
+- Las tarjetas superiores funcionan como botones/filtros.
+- Filtros: tareas de hoy, pendientes, compra y realizadas.
+- Nueva vista rápida de tareas realizadas.
+- Limpieza automática mensual de tareas realizadas del mes anterior.
+- Botón manual de limpieza en Ajustes.
+
 ## Importante
 
-No subas este ZIP directamente a GitHub. Primero hay que descomprimirlo.
-
-En el repositorio deben verse estos archivos en la raíz:
-
-- index.html
-- manifest.webmanifest
-- version.json
-- _headers
-- assets/
-- supabase/
-- docs/
-
-Si GitHub solo muestra un archivo .zip, Cloudflare dará error 404.
-
-## Cloudflare Pages
-
-Configuración recomendada:
-
-- Framework: Ninguno
-- Comando de compilación: vacío
-- Directorio de salida: / o .
-- Rama: main
-
-## Supabase
-
-Si la base de datos ya funciona desde v18/v19/v20, no hace falta volver a ejecutar SQL.
-El SQL completo queda guardado en /supabase como copia de seguridad.
+Sube el contenido de esta carpeta a GitHub, no el ZIP.
