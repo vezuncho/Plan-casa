@@ -1,5 +1,9 @@
-# CasaPlan v46
+# CasaPlan v53
 
-Versión centrada en limpiar la pestaña de Inicio y unificar la estética de las tarjetas de tareas con el resto de menús.
+Sube todos los archivos descomprimidos a la raíz de GitHub.
 
-No requiere migración SQL si ya tienes v45 funcionando.
+Después abre una sola vez:
+
+`https://plancasa.pages.dev/actualizar.html`
+
+Pulsa **Limpiar y abrir CasaPlan**. No requiere SQL.

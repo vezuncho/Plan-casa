@@ -1,1 +1,5 @@
-{"version":"46","label":"v46 inicio sin accesos duplicados"}
+{
+  "version": 53,
+  "label": "v53 actualización de rescate",
+  "build": "casaplan-build-53-20260710"
+}
