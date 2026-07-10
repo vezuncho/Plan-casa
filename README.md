@@ -1,4 +1,4 @@
-# CasaPlan v54 · Pulido integral
+# CasaPlan v55 · Permisos desplegables
 
 Versión acumulativa basada en la v53.
 
