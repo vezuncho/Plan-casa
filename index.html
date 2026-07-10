@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-title" content="CasaPlan" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="manifest.webmanifest?v=60" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=60" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=60" />
+  <link rel="manifest" href="manifest.webmanifest?v=61" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=61" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=61" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -107,7 +107,7 @@
 <div class="app">
   <header>
     <div class="top">
-      <div class="logo"><div class="mark"><img src="assets/casaplan-logo.png?v=60" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v60 iconos corregidos</div></div></div>
+      <div class="logo"><div class="mark"><img src="assets/casaplan-logo.png?v=61" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v61 inicio limpio</div></div></div>
       <div class="status"><span id="connDot" class="dot"></span><span id="connText">Conectando</span></div>
     </div>
     <div class="heroGrid"><button class="heroStat heroBtn" data-quick-filter="today" type="button" onclick="openQuickFilter('today')"><b id="statToday">0</b><span>hoy</span></button><button class="heroStat heroBtn" data-quick-filter="pending" type="button" onclick="openQuickFilter('pending')"><b id="statPending">0</b><span>pendientes</span></button><button class="heroStat heroBtn" data-quick-filter="shop" type="button" onclick="openQuickFilter('shop')"><b id="statShop">0</b><span>compra</span></button><button class="heroStat heroBtn" data-quick-filter="done" type="button" onclick="openQuickFilter('done')"><b id="statDone">0</b><span>realizadas</span></button></div>
@@ -121,8 +121,8 @@
   <button class="fab" onclick="openCreateTask()" aria-label="Crear tarea">+</button>
 </div>
 <script>
-const APP_VERSION=60;
-const APP_VERSION_LABEL='v60 iconos corregidos';
+const APP_VERSION=61;
+const APP_VERSION_LABEL='v61 inicio limpio';
 const BUILD_ID='casaplan-build-55-20260710';
 let LATEST_REMOTE_VERSION=APP_VERSION;
 async function getRemoteVersion(){
@@ -571,7 +571,7 @@ let shortcuts='';
 let tasksBlock=`<div class="card homeSection"><div class="homeSectionTitle"><div><h2>${listTitle}</h2><div class="muted small">${listHelp}</div></div><span class="pill">${list.length}</span></div>${memberFilterBar()}<div class="homeTaskList">${shown.length?shown.map(taskCardCompact).join(''):'<div class="empty">No hay tareas en este filtro.</div>'}</div>${list.length>shown.length?`<div class="muted small" style="margin-top:10px">Mostrando ${shown.length} de ${list.length}. Usa Pendientes o Realizadas para ver más.</div>`:''}</div>`;
 let lateBlock=(state.quickFilter!=='done'&&late.length)?`<div class="card homeSection"><div class="homeSectionTitle"><h2>⚠️ Atrasadas</h2><span class="pill bad">${late.length}</span></div>${late.slice(0,5).map(taskCardCompact).join('')}${late.length>5?`<button class="btn ghost full" style="margin-top:10px" onclick="openQuickFilter('pending')">Ver todas las atrasadas</button>`:''}</div>`:'';
 let rankBlock=`<div class="card homeSection"><div class="homeSectionTitle"><div><h2>Ranking semanal</h2><div class="muted small">Pulsa una persona para ver su detalle.</div></div><span class="pill ok">pts</span></div><div class="homeRankList">${rank.length?rank.slice(0,3).map((m,i)=>rankMemberButton(m,i)).join(''):'<div class="empty">Sin miembros</div>'}</div>${rank.length>3?`<button class="btn ghost full" style="margin-top:10px" onclick="openTab('familia')">Ver ranking completo</button>`:''}</div>`;
-$('#view-hoy').innerHTML=errorHtml+quick+incHtml+shortcuts+tasksBlock+lateBlock+rankBlock
+$('#view-hoy').innerHTML=errorHtml+incHtml+shortcuts+tasksBlock+lateBlock+rankBlock
 }
 function tasksOnDate(date){return state.tasks.filter(t=>taskMatchesDate(t,date)).sort((a,b)=>(a.status==='done')-(b.status==='done') || String(a.title).localeCompare(String(b.title)))}
 function selectDay(date){state.selectedDate=date;state.calendarPicked=true;renderCalendario();renderTareas()}
@@ -678,7 +678,7 @@ function renderAjustes(){
   let roleLabel=cur?(isOwnerMember(cur)?'Admin principal':'Miembro'):'Sin elegir';
   $('#view-ajustes').innerHTML=`<div class="settingsPage">
     <div class="settingsHero">
-      <div class="settingsHeroTop"><div><h2>Ajustes</h2><p class="muted small">Tu perfil, permisos y mantenimiento de CasaPlan.</p></div><span class="versionBadge">v59</span></div>
+      <div class="settingsHeroTop"><div><h2>Ajustes</h2><p class="muted small">Tu perfil, permisos y mantenimiento de CasaPlan.</p></div><span class="versionBadge">v61</span></div>
       <div class="settingsStatusGrid">
         <div class="settingsStatus"><span>Sincronización</span><b>${esc(syncLabel)}</b></div>
         <div class="settingsStatus"><span>Fotos</span><b>${esc(photoLabel)}</b></div>
@@ -698,7 +698,6 @@ function renderAjustes(){
     <section class="settingsSection">
       <div class="settingsSectionHead"><div class="settingsSectionIcon">♛</div><div><h3>Administración y permisos</h3><p class="muted tiny">Controles sensibles y edición de tareas.</p></div></div>
       ${adminSettingsPanel()}
-      <details><summary>Edición avanzada de tareas pendientes</summary><div class="settingsDetailsBody">${adminTaskEditor()}</div></details>
     </section>
 
     <section class="settingsSection">
@@ -709,7 +708,7 @@ function renderAjustes(){
     <section class="settingsSection">
       <div class="settingsSectionHead"><div class="settingsSectionIcon">⌁</div><div><h3>Aplicación</h3><p class="muted tiny">Notificaciones y actualización.</p></div></div>
       <details><summary>Notificaciones</summary><div class="settingsDetailsBody"><p class="muted small">Activa avisos locales del navegador. En iPhone puede requerir instalar la web en la pantalla de inicio.</p><button class="btn ${notif?'ok':'secondary'} full" onclick="enableNotifications()">${notif?'Notificaciones activadas':'Activar notificaciones'}</button></div></details>
-      <details><summary>Actualización de CasaPlan</summary><div class="settingsDetailsBody"><p class="muted small">Úsalo si un dispositivo sigue mostrando una versión antigua.</p><div class="settingsVersion"><span class="versionBadge">v59</span><button class="btn secondary" onclick="forceAppUpdate(this)">Forzar actualización</button></div></div></details>
+      <details><summary>Actualización de CasaPlan</summary><div class="settingsDetailsBody"><p class="muted small">Úsalo si un dispositivo sigue mostrando una versión antigua.</p><div class="settingsVersion"><span class="versionBadge">v61</span><button class="btn secondary" onclick="forceAppUpdate(this)">Forzar actualización</button></div></div></details>
     </section>
 
     ${isAdminUnlocked()?`<section class="settingsSection"><div class="settingsSectionHead"><div class="settingsSectionIcon">⚙</div><div><h3>Mantenimiento</h3><p class="muted tiny">Limpieza y copia de seguridad.</p></div></div><div class="settingsActions"><button class="btn ghost" onclick="cleanupDoneTasksPreviousMonth(true)">Limpiar mes anterior</button><button class="btn ghost" onclick="exportData()">Exportar copia JSON</button></div></section>`:''}
