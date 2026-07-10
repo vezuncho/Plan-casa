@@ -1,9 +1,21 @@
-# CasaPlan v53
+# CasaPlan v54 · Pulido integral
 
-Sube todos los archivos descomprimidos a la raíz de GitHub.
+Versión acumulativa basada en la v53.
 
-Después abre una sola vez:
+## Mejoras
 
-`https://plancasa.pages.dev/actualizar.html`
+- Estética unificada en Habitaciones, Familia, Incidencias y vistas secundarias.
+- Transiciones rápidas entre pantallas.
+- Iconos consistentes.
+- Tipografía y espaciados revisados para móvil.
+- Microinteracciones en botones y tarjetas.
+- Menos renderizados completos y temporizadores limitados a la vista activa.
+- Respeta la opción del sistema para reducir movimiento.
 
-Pulsa **Limpiar y abrir CasaPlan**. No requiere SQL.
+## Instalación
+
+Descomprime el ZIP y sube su contenido a la raíz del repositorio de GitHub. Cloudflare Pages desplegará automáticamente.
+
+## Base de datos
+
+No requiere SQL nuevo.
