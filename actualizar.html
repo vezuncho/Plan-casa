@@ -17,7 +17,7 @@ async function reset(){btn.disabled=true;statusEl.textContent='Eliminando caché
  if('serviceWorker' in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}
  if('caches' in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}
  ['casaplan_installed_version','casaplan_last_update','casaplan_update_dismissed','app_version'].forEach(k=>localStorage.removeItem(k));
- sessionStorage.clear();statusEl.textContent='Limpieza completada. Abriendo v58…';
+ sessionStorage.clear();statusEl.textContent='Limpieza completada. Abriendo v59…';
  const u=new URL('/',location.origin);u.searchParams.set('v','56');u.searchParams.set('build',Date.now().toString());location.replace(u.toString());
  }catch(e){statusEl.textContent='No se pudo limpiar automáticamente. Cierra CasaPlan, vuelve a abrir esta página y prueba de nuevo.';btn.disabled=false;}}
 btn.addEventListener('click',reset);
