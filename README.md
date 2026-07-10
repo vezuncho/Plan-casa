@@ -1,3 +1,1 @@
-# CasaPlan v64
-
-Sistema visual completo de estados para las tareas. No necesita migración SQL.
+CasaPlan v65 — Familia compacta y ajustes por tarjeta. No necesita SQL nuevo.
