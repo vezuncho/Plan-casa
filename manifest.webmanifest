@@ -2,8 +2,8 @@
   "name": "CasaPlan",
   "short_name": "CasaPlan",
   "description": "Organización familiar de tareas, compra, incidencias e inventario.",
-  "id": "/?app=casaplan-v63",
-  "start_url": "/?app=casaplan&v=63",
+  "id": "/?app=casaplan-v64",
+  "start_url": "/?app=casaplan&v=64",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
@@ -11,19 +11,19 @@
   "theme_color": "#0f172a",
   "icons": [
     {
-      "src": "/icon-192-v63.png?v=63",
+      "src": "/icon-192-v63.png?v=64",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-512-v63.png?v=63",
+      "src": "/icon-512-v63.png?v=64",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-maskable-512-v63.png?v=63",
+      "src": "/icon-maskable-512-v63.png?v=64",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

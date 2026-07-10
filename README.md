@@ -1,9 +1,3 @@
-# CasaPlan v61
+# CasaPlan v64
 
-Sube el contenido de esta carpeta a la raíz del repositorio de GitHub. Cloudflare Pages desplegará automáticamente.
-
-No requiere cambios SQL.
-
-
-## v63
-Nuevo logo e iconos PWA. No requiere SQL.
+Sistema visual completo de estados para las tareas. No necesita migración SQL.
