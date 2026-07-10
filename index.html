@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-title" content="CasaPlan" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="manifest.webmanifest?v=56" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-v26.png?v=26" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-v26-180.png?v=26" />
+  <link rel="manifest" href="manifest.webmanifest?v=60" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=60" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=60" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -107,7 +107,7 @@
 <div class="app">
   <header>
     <div class="top">
-      <div class="logo"><div class="mark"><img src="assets/casaplan-logo-v26.png?v=26" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v59 formulario y perfiles corregidos</div></div></div>
+      <div class="logo"><div class="mark"><img src="assets/casaplan-logo.png?v=60" alt="CasaPlan"></div><div class="title"><h1>CasaPlan</h1><div>La casa organizada entre todos · v60 iconos corregidos</div></div></div>
       <div class="status"><span id="connDot" class="dot"></span><span id="connText">Conectando</span></div>
     </div>
     <div class="heroGrid"><button class="heroStat heroBtn" data-quick-filter="today" type="button" onclick="openQuickFilter('today')"><b id="statToday">0</b><span>hoy</span></button><button class="heroStat heroBtn" data-quick-filter="pending" type="button" onclick="openQuickFilter('pending')"><b id="statPending">0</b><span>pendientes</span></button><button class="heroStat heroBtn" data-quick-filter="shop" type="button" onclick="openQuickFilter('shop')"><b id="statShop">0</b><span>compra</span></button><button class="heroStat heroBtn" data-quick-filter="done" type="button" onclick="openQuickFilter('done')"><b id="statDone">0</b><span>realizadas</span></button></div>
@@ -121,8 +121,8 @@
   <button class="fab" onclick="openCreateTask()" aria-label="Crear tarea">+</button>
 </div>
 <script>
-const APP_VERSION=59;
-const APP_VERSION_LABEL='v59 formulario y perfiles corregidos';
+const APP_VERSION=60;
+const APP_VERSION_LABEL='v60 iconos corregidos';
 const BUILD_ID='casaplan-build-55-20260710';
 let LATEST_REMOTE_VERSION=APP_VERSION;
 async function getRemoteVersion(){
