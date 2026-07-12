@@ -1,6 +1,1 @@
-# CasaPlan v69 — Progreso adaptable
-
-Sube a GitHub todo el contenido de esta carpeta, no el ZIP.
-Cloudflare Pages desplegará automáticamente los cambios.
-
-No necesita SQL nuevo.
+CasaPlan v72 — repeticiones automáticas. Subir todo el contenido de esta carpeta a la raíz del repositorio de GitHub. No necesita SQL nuevo.
