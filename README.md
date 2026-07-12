@@ -1,9 +1,6 @@
-# CasaPlan v67
+# CasaPlan v69 — Progreso adaptable
 
-Versión con asistente de repeticiones avanzadas.
+Sube a GitHub todo el contenido de esta carpeta, no el ZIP.
+Cloudflare Pages desplegará automáticamente los cambios.
 
-## Actualización
-Descomprime el ZIP y sube todo su contenido a la raíz del repositorio de GitHub. Cloudflare Pages desplegará automáticamente.
-
-## Base de datos
-No necesita SQL nuevo. La configuración avanzada se guarda de forma compatible dentro de cada tarea.
+No necesita SQL nuevo.
