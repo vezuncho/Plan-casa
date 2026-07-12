@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="CasaPlan" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="manifest.webmanifest?v=68" />
+  <link rel="manifest" href="manifest.webmanifest?v=70" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32-v63.png?v=64" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v63.png?v=64" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -158,9 +158,9 @@
   <button class="fab" onclick="openCreateTask()" aria-label="Crear tarea">+</button>
 </div>
 <script>
-const APP_VERSION=69;
-const APP_VERSION_LABEL='v69 progreso y distintivos';
-const BUILD_ID='2026-07-12-v68';
+const APP_VERSION=70;
+const APP_VERSION_LABEL='v70 limpieza segura';
+const BUILD_ID='2026-07-12-v70';
 let LATEST_REMOTE_VERSION=APP_VERSION;
 async function getRemoteVersion(){
   try{
@@ -396,7 +396,7 @@ function incidentCard(i){let created=i.created_at?new Date(i.created_at).toLocal
 
 
 function setConn(ok,text){$('#connDot').className='dot '+(ok?'ok':text==='Conectando'?'':'bad');$('#connText').textContent=text}
-async function init(){try{if(!sb)throw new Error('No se cargó Supabase. Revisa conexión a internet.');setConn(false,'Conectando');let {data:f,error:e}=await sb.from('families').select('*').eq('invite_code',CONFIG.FAMILY_CODE).single();if(e&&e.code!=='PGRST116')throw e;if(!f){let r=await sb.from('families').insert({name:'CasaPlan Familia',invite_code:CONFIG.FAMILY_CODE}).select().single();if(r.error)throw r.error;f=r.data}state.family=f;await ensureMembers();await ensureRooms();await loadAll();await cleanupDoneTasksPreviousMonth(false);subscribe();setConn(true,'Sincronizado')}catch(err){state.error=err.message||String(err);setConn(false,'Error');render()}}
+async function init(){try{if(!sb)throw new Error('No se cargó Supabase. Revisa conexión a internet.');setConn(false,'Conectando');let {data:f,error:e}=await sb.from('families').select('*').eq('invite_code',CONFIG.FAMILY_CODE).single();if(e&&e.code!=='PGRST116')throw e;if(!f){let r=await sb.from('families').insert({name:'CasaPlan Familia',invite_code:CONFIG.FAMILY_CODE}).select().single();if(r.error)throw r.error;f=r.data}state.family=f;await ensureMembers();await ensureRooms();await loadAll();subscribe();setConn(true,'Sincronizado')}catch(err){state.error=err.message||String(err);setConn(false,'Error');render()}}
 async function ensureMembers(){let r=await sb.from('members').select('*').eq('family_id',state.family.id);if(r.error)throw r.error;if(!r.data.length){await sb.from('members').insert([{family_id:state.family.id,name:'Mamá',color:'#ef4444'},{family_id:state.family.id,name:'Papá',color:'#2563eb'},{family_id:state.family.id,name:'Hijo/a',color:'#16a34a'}])}}
 async function ensureRooms(){let r=await sb.from('rooms').select('*').eq('family_id',state.family.id);if(r.error){state.rooms=defaultRooms;state.error='Falta la tabla public.rooms en Supabase. Ejecuta el SQL completo v15 y recarga la app.';return}if(!r.data.length){let ins=await sb.from('rooms').insert(defaultRooms.map((x,i)=>({family_id:state.family.id,id:x.id,name:x.name,icon:x.icon,is_default:true,sort_order:i})));if(ins.error){state.error=ins.error.message}}}
 async function loadAll(options={}){
@@ -429,9 +429,26 @@ function stats(){let t=today();$('#statToday').textContent=state.tasks.filter(x=
 function openQuickFilter(kind){state.quickFilter=kind;stats();if(kind==='shop'){openTab('compra');return}openTab('hoy');renderHoy()}
 function filteredQuickTasks(){let k=state.quickFilter||'today',mf=activeFilterMemberId();let list=[];if(k==='pending')list=state.tasks.filter(t=>t.status!=='done');else if(k==='done')list=state.tasks.filter(t=>t.status==='done');else list=state.tasks.filter(t=>taskMatchesDate(t,today())&&t.status!=='done');if(mf)list=list.filter(t=>taskAssignedToMember(t,mf)||(k==='done'&&completedByMembers(t).some(m=>m.id===mf)));if(k==='done')return list.sort((a,b)=>String(b.completed_at||b.updated_at||b.created_at||'').localeCompare(String(a.completed_at||a.updated_at||a.created_at||'')));return list.sort(sortTasksByState)}
 function quickFilterTitle(){let k=state.quickFilter||'today',who=memberFilterLabel();let base=k==='pending'?'Tareas pendientes':(k==='done'?'Tareas realizadas':'Tareas de hoy');return who==='Todos los miembros'?base:`${base} · ${who}`}
-function quickFilterHelp(){let k=state.quickFilter||'today';if(k==='pending')return 'Todas las tareas que aún no están cerradas.';if(k==='done')return 'Tareas marcadas como realizadas. Las del mes anterior se limpiarán automáticamente cada mes.';return nice(today())} 
+function quickFilterHelp(){let k=state.quickFilter||'today';if(k==='pending')return 'Todas las tareas que aún no están cerradas.';if(k==='done')return 'Tareas marcadas como realizadas. No se borran automáticamente.';return nice(today())} 
 function previousMonthRange(){let now=new Date();let start=new Date(now.getFullYear(),now.getMonth()-1,1);let end=new Date(now.getFullYear(),now.getMonth(),1);return {start:iso(start),end:iso(end)}}
-async function cleanupDoneTasksPreviousMonth(manual=true){if(!state.family)return;let {start,end}=previousMonthRange();let key='casaplan_cleanup_'+state.family.id+'_'+start;if(!manual&&localStorage.getItem(key)==='1')return;let q=sb.from('tasks').delete().eq('family_id',state.family.id).eq('status','done').gte('completed_at',start).lt('completed_at',end);let r=await q;if(r.error){if(manual)alert('No se pudo limpiar: '+r.error.message);return}localStorage.setItem(key,'1');if(manual){alert('Limpieza realizada: se han borrado las tareas realizadas del mes anterior.');await loadAll()}}
+async function cleanupDoneTasksPreviousMonth(){
+  if(!state.family)return;
+  if(!requireAdmin('Solo el administrador principal puede borrar tareas realizadas.'))return;
+  let {start,end}=previousMonthRange();
+  let preview=await sb.from('tasks').select('id',{count:'exact',head:true}).eq('family_id',state.family.id).eq('status','done').gte('completed_at',start).lt('completed_at',end);
+  if(preview.error)return alert('No se pudo comprobar la limpieza: '+preview.error.message);
+  let count=Number(preview.count||0);
+  if(!count)return alert('No hay tareas realizadas del mes anterior para borrar.');
+  if(!confirm(`Vas a borrar permanentemente ${count} tarea(s) realizadas del mes anterior.
+
+Esta acción afecta a toda la familia y no se puede deshacer. ¿Quieres continuar?`))return;
+  let typed=prompt('Para confirmar el borrado permanente, escribe BORRAR');
+  if(String(typed||'').trim().toUpperCase()!=='BORRAR')return alert('Limpieza cancelada.');
+  let r=await sb.from('tasks').delete().eq('family_id',state.family.id).eq('status','done').gte('completed_at',start).lt('completed_at',end);
+  if(r.error)return alert('No se pudo limpiar: '+r.error.message);
+  alert(`Se han borrado ${count} tarea(s) realizadas del mes anterior.`);
+  await loadAll();
+}
 
 function normTaskText(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9ñ\s]/g,' ').replace(/\s+/g,' ').trim()}
 function titleSimilarity(a,b){a=normTaskText(a);b=normTaskText(b);if(!a||!b)return 0;if(a===b)return 1;if(a.includes(b)||b.includes(a))return .86;let aw=[...new Set(a.split(' ').filter(x=>x.length>2))],bw=[...new Set(b.split(' ').filter(x=>x.length>2))];if(!aw.length||!bw.length)return 0;let common=aw.filter(x=>bw.includes(x)).length;return common/Math.max(aw.length,bw.length)}
@@ -792,7 +809,7 @@ function renderAjustes(){
       <details><summary>Actualización de CasaPlan</summary><div class="settingsDetailsBody"><p class="muted small">Úsalo si un dispositivo sigue mostrando una versión antigua.</p><div class="settingsVersion"><span class="versionBadge">v68</span><button class="btn secondary" onclick="forceAppUpdate(this)">Forzar actualización</button></div></div></details>
     </section>
 
-    ${isAdminUnlocked()?`<section class="settingsSection"><div class="settingsSectionHead"><div class="settingsSectionIcon">⚙</div><div><h3>Mantenimiento</h3><p class="muted tiny">Limpieza y copia de seguridad.</p></div></div><div class="settingsActions"><button class="btn ghost" onclick="cleanupDoneTasksPreviousMonth(true)">Limpiar mes anterior</button><button class="btn ghost" onclick="exportData()">Exportar copia JSON</button></div></section>`:''}
+    ${isAdminUnlocked()?`<section class="settingsSection"><div class="settingsSectionHead"><div class="settingsSectionIcon">⚙</div><div><h3>Mantenimiento</h3><p class="muted tiny">Limpieza y copia de seguridad.</p></div></div><div class="settingsActions"><button class="btn ghost" onclick="cleanupDoneTasksPreviousMonth()">Borrar realizadas del mes anterior</button><button class="btn ghost" onclick="exportData()">Exportar copia JSON</button></div></section>`:''}
   </div>`
 }
 function render(){stats();const active=state.tab||'hoy';const map={hoy:renderHoy,calendario:renderCalendario,tareas:renderTareas,habitaciones:renderHabitaciones,familia:renderFamilia,incidencias:renderIncidencias,compra:renderCompra,ajustes:renderAjustes};const keepTaskForm=active==='tareas'&&(taskCreateFormHasFocus()||taskCreateFormDirty());if(!keepTaskForm){if(map[active])map[active]();else renderHoy()}if(!uiInteractionBusy())(window.requestIdleCallback||((fn)=>setTimeout(fn,120)))(()=>{if(uiInteractionBusy())return;Object.entries(map).forEach(([k,fn])=>{if(k!==active)try{fn()}catch(e){}})},{timeout:700})}
