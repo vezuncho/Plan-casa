@@ -1,7 +1,5 @@
-# CasaPlan v73
+# CasaPlan v75
 
-1. Ejecuta `migracion_desde_v72_a_v73.sql` en Supabase.
-2. Sube el contenido de esta carpeta a la raíz de GitHub.
-3. Cloudflare desplegará la nueva versión.
+Ranking mensual familiar con puntos por semana.
 
-Al eliminar una tarea repetitiva podrás borrar solo esa fecha, desactivar la serie o desactivarla y borrar las futuras pendientes.
+No necesita migración SQL.
